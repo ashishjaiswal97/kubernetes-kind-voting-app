@@ -92,8 +92,19 @@ prometheus-stack-kube-state-metrics         ClusterIP   10.96.237.39    <none>  
 prometheus-stack-prometheus-node-exporter   ClusterIP   10.96.246.122   <none>        9100/TCP                     85s
 root@ip-172-31-38-172:~/monitoring# 
 
-5. Port forwarding for Prometheus:
+5. Port forwarding for Prometheus: --we update the prometheus.yml file for scrap data -- targethealth
+   
 kubectl port-forward service/prometheus-stack-kube-prom-prometheus 9090:9090 -n monitoring --address=0.0.0.0 &
+
+6. Port forwading for Grafana
+
+   kubectl port-forward service/prometheus-stack-grafana 3000:80 -n monitoring --address=0.0.0.0 &
+
+
+7. To get the secret password
+
+   kubectl get secret prometheus-stack-grafana -n monitoring -o jsonpath="{ .data.admin-password}" | base64 --decode
+   
 
 
 
