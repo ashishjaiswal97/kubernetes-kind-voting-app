@@ -64,22 +64,21 @@ chmod 700 get_helm.sh
 To Verify
 helm version
 
-Install Prometheus repo via helm:-
+2. Install Prometheus repo via helm:-
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 
 helm repo list
 
-Create monitoring namespace:
+3. Create monitoring namespace:
+   
 kubectl create namespace monitoring
 
-Install Prometheus-stack and grafana:-
-
-kubectl create namespace monitoring
-namespace/monitoring created
+4. Install Prometheus-stack and grafana:-
 
 helm install prometheus-stack prometheus-community/kube-prometheus-stack --namespace monitoring --set prometheus.service.nodePort=30000 --set grafana.service.nodePort=31000 --set  grafana.service.type=NodePort --set prometheus.servicetype=NodePort
 
+4. Check Service
 
 kubectl get svc -n monitoring
 NAME                                        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
@@ -93,7 +92,7 @@ prometheus-stack-kube-state-metrics         ClusterIP   10.96.237.39    <none>  
 prometheus-stack-prometheus-node-exporter   ClusterIP   10.96.246.122   <none>        9100/TCP                     85s
 root@ip-172-31-38-172:~/monitoring# 
 
-Port forwarding for Prometheus:
+5. Port forwarding for Prometheus:
 kubectl port-forward service/prometheus-stack-kube-prom-prometheus 9090:9090 -n monitoring --address=0.0.0.0 &
 
 
