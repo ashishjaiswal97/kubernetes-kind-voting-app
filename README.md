@@ -92,7 +92,7 @@ prometheus-stack-kube-state-metrics         ClusterIP   10.96.237.39    <none>  
 prometheus-stack-prometheus-node-exporter   ClusterIP   10.96.246.122   <none>        9100/TCP                     85s
 root@ip-172-31-38-172:~/monitoring# 
 
-5. Port forwarding for Prometheus: --we update the prometheus.yml file for scrap data -- targethealth
+5. Port forwarding for Prometheus: --we update the prometheus.yml file for scrap data -- status >targethealth
    
 kubectl port-forward service/prometheus-stack-kube-prom-prometheus 9090:9090 -n monitoring --address=0.0.0.0 &
 
