@@ -74,37 +74,14 @@ Create monitoring namespace:
 kubectl create namespace monitoring
 
 Install Prometheus-stack and grafana:-
-root@ip-172-31-38-172:~/monitoring# kubectl create namespace monitoring
+
+kubectl create namespace monitoring
 namespace/monitoring created
-root@ip-172-31-38-172:~/monitoring# helm install prometheus-stack prometheus-community/kube-prometheus-stack --namespace monitoring --set prometheus.service.nodePort=30000 --set grafana.service.nodePort=31000 --set  grafana.service.type=NodePort --set prometheus.servicetype=NodePort
-NAME: prometheus-stack
-LAST DEPLOYED: Fri Oct 16 02:06:14 2026
-NAMESPACE: monitoring
-STATUS: deployed
-REVISION: 1
-DESCRIPTION: Install complete
-NOTES:
-kube-prometheus-stack has been installed. Check its status by running:
-  kubectl --namespace monitoring get pods -l "release=prometheus-stack"
 
-Get Grafana 'admin' user password by running:
-
-  kubectl --namespace monitoring get secrets prometheus-stack-grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
-
-Access Grafana local instance:
-
-  export POD_NAME=$(kubectl --namespace monitoring get pod -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=prometheus-stack" -oname)
-  kubectl --namespace monitoring port-forward $POD_NAME 3000
-
-Get your grafana admin user password by running:
-
-  kubectl get secret --namespace monitoring -l app.kubernetes.io/component=admin-secret -o jsonpath="{.items[0].data.admin-password}" | base64 --decode ; echo
+helm install prometheus-stack prometheus-community/kube-prometheus-stack --namespace monitoring --set prometheus.service.nodePort=30000 --set grafana.service.nodePort=31000 --set  grafana.service.type=NodePort --set prometheus.servicetype=NodePort
 
 
-Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
-root@ip-172-31-38-172:~/monitoring# 
-
-root@ip-172-31-38-172:~/monitoring# kubectl get svc -n monitoring
+kubectl get svc -n monitoring
 NAME                                        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
 alertmanager-operated                       ClusterIP   None            <none>        9093/TCP,9094/TCP,9094/UDP   81s
 prometheus-operated                         ClusterIP   None            <none>        9090/TCP                     78s
@@ -116,11 +93,8 @@ prometheus-stack-kube-state-metrics         ClusterIP   10.96.237.39    <none>  
 prometheus-stack-prometheus-node-exporter   ClusterIP   10.96.246.122   <none>        9100/TCP                     85s
 root@ip-172-31-38-172:~/monitoring# 
 
-^Croot@ip-172-31-38-172:~/monitoring# kubectl port-forward service/prometheus-stack-kube-prom-prometheus 9090:9090 -n monitoring --address=0.0.0.0 &
-[1] 13863
-root@ip-172-31-38-172:~/monitoring# Forwarding from 0.0.0.0:9090 -> 9090
-
-root@ip-172-31-38-172:~/monitoring#
+Port forwarding for Prometheus:
+kubectl port-forward service/prometheus-stack-kube-prom-prometheus 9090:9090 -n monitoring --address=0.0.0.0 &
 
 
 
